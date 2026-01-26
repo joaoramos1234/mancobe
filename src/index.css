@@ -22,12 +22,11 @@ body {
   overflow: hidden;
 }
 
-/* Background da imagem */
 .hero-bg {
   position: absolute;
   inset: 0;
   background: url("./assets/hero.jpg") no-repeat center center;
   background-size: cover;
-  filter: brightness(50%); /* deixa apenas a imagem escura */
+  filter: brightness(50%);
   z-index: 0;
 }

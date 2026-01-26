@@ -1,4 +1,33 @@
+import React from "react";
+
 export default function HeroSection() {
+  // Scroll smoothly to #cta, compensating for the fixed header height and focusing the target for accessibility.
+  function handleScrollToCta(e) {
+    if (e) e.preventDefault();
+
+    if (typeof window === "undefined") return;
+
+    const targetId = "cta";
+    const el = document.getElementById(targetId);
+    if (!el) return;
+
+    // Find the fixed nav (we used aria-label="Main navigation" in your Navbar)
+    const nav = document.querySelector('nav[aria-label="Main navigation"]');
+    const headerHeight = nav ? nav.offsetHeight : 0;
+
+    const elementTop = el.getBoundingClientRect().top + window.scrollY;
+    const extraOffset = 12; // px of breathing room between the section and the header
+    const targetY = elementTop - headerHeight - extraOffset;
+
+    window.scrollTo({ top: targetY, behavior: "smooth" });
+
+    // focus the target for accessibility without causing another scroll
+    const hadTabIndex = el.hasAttribute && el.hasAttribute("tabindex");
+    if (!hadTabIndex) el.setAttribute("tabindex", "-1");
+    el.focus && el.focus({ preventScroll: true });
+    if (!hadTabIndex) el.removeAttribute("tabindex");
+  }
+
   return (
     <section className="w-full relative hero-css overflow-hidden">
       {/* Background */}
@@ -12,13 +41,16 @@ export default function HeroSection() {
           </h1>
 
           <p className="text-base sm:text-lg md:text-xl mb-6 font-medium md:mb-10 leading-relaxed whitespace-normal break-words">
-            A sua casa ou negócio protegido, limpo e valorizado.
-            <br />
-            Serviço premium, execução rápida e resultados comprovados.
+            Empresa especializada em limpezas de exteriores, com foco na segurança, qualidade e resultados visíveis
           </p>
 
           <div className="flex justify-center lg:justify-start">
-            <button className="px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 rounded-3xl text-lg md:text-xl bg-main-blue hover:bg-light-blue duration-300">
+            <button
+              onClick={handleScrollToCta}
+              className="px-6 sm:px-8 md:px-12 py-3 sm:py-4 md:py-5 rounded-3xl text-lg md:text-xl bg-main-blue hover:bg-light-blue duration-300"
+              aria-label="Pedir orçamento — ir para a secção de contactos"
+              type="button"
+            >
               Pedir Orçamento
             </button>
           </div>
