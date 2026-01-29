@@ -2,17 +2,12 @@
 # https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  publish = "."
+  publish = "./build"
+  command = "npm run build"
 
 # Force HTTPS and WWW - Redirect all traffic to https://www.mancobe.com
 [[redirects]]
   from = "http://mancobe.com/*"
-  to = "https://www.mancobe.com/:splat"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "https://mancobe.com/*"
   to = "https://www.mancobe.com/:splat"
   status = 301
   force = true
@@ -28,26 +23,10 @@
 
 # Cache static assets
 [[headers]]
-  for = "/assets/*"
+  for = "/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Cache fonts
-[[headers]]
-  for = "/*.woff2"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
+    
 # HTML should not be cached
 [[headers]]
   for = "/*.html"
